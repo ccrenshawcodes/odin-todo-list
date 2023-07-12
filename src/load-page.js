@@ -1,3 +1,6 @@
+import { populateSidebar } from './populate-sidebar.js';
+import { loadTaskModal } from './load-task-modal.js';
+
 function createSidebarDiv (parent) {
     const sidebar = document.createElement('div');
     sidebar.classList.add('sidebar');
@@ -32,19 +35,19 @@ function createWorkArea (parent) {
 
 function loadPage () {
     const page = document.querySelector('.content');
-
     createSidebarDiv(page);
     createMainDiv(page);
 
     const mainDiv = document.querySelector('.main-div');
-
     createTopRibbon(mainDiv);
 
     const ribbonDiv = document.querySelector('.top-ribbon');
-
     populateTopRibbon(ribbonDiv);
-
     createWorkArea(mainDiv);
+    populateSidebar();
+    
+    //showTaskModalOnClick();
+    loadTaskModal();
 }
 
 export {
