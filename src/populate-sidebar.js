@@ -1,3 +1,5 @@
+import { projectContainer } from './store-projects.js';
+
 function createSidebarDivs (parent) {
     const projectTabDiv = document.createElement('div');
     projectTabDiv.classList.add('project-tabs');
@@ -7,6 +9,22 @@ function createSidebarDivs (parent) {
 
     parent.appendChild(projectTabDiv);
     parent.appendChild(actionBtnsDiv);
+}
+
+function createProjectTabs (project, parent) {
+    const projectTab = document.createElement('span');
+    projectTab.classList.add('project-tab');
+    projectTab.classList.add(project);
+    projectTab.textContent = project;
+
+    parent.appendChild(projectTab);
+}
+
+function getAndPopulateProjects () {
+    const projectTabDiv = document.querySelector('.project-tabs');
+    for (const entry in projectContainer) {
+        createProjectTabs(entry, projectTabDiv);
+    }
 }
 
 function createActionBtns (parent) {
@@ -26,6 +44,7 @@ function populateSidebar () {
     const sidebar = document.querySelector('.sidebar');
     createSidebarDivs(sidebar);
 
+    getAndPopulateProjects();
     const actionButtonsDiv = document.querySelector('.action-buttons');
     createActionBtns(actionButtonsDiv);
 }
