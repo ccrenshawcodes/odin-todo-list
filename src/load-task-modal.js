@@ -66,7 +66,7 @@ function populateTaskModalFooter (parent) {
 
 function showTaskModalOnClick () {
     const newTaskButton = document.querySelector('.new-task');
-    const modal = document.querySelector('.modal-background');
+    const modal = document.querySelector('.task-modal-background');
     newTaskButton.addEventListener('click', () => {
         modal.style.display = 'block';
     });
@@ -74,7 +74,7 @@ function showTaskModalOnClick () {
 
 function hideModalOnCloseClick () {
     const closeBtn = document.querySelector('.close-button');
-    const modal = document.querySelector('.modal-background');
+    const modal = document.querySelector('.task-modal-background');
 
     closeBtn.addEventListener('click', () => {
         modal.style.display = 'none';
@@ -85,7 +85,7 @@ function loadTaskModal () {
     const mainDiv = document.querySelector('.content');
 
     const modalBackground = document.createElement('div');
-    modalBackground.classList.add('modal-background');
+    modalBackground.classList.add('task-modal-background');
 
     const taskModal = document.createElement('div');
     taskModal.classList.add('task-modal');

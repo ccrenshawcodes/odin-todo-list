@@ -1,5 +1,6 @@
 import { populateSidebar } from './populate-sidebar.js';
 import { loadTaskModal } from './load-task-modal.js';
+import { loadNewProjectModal } from './new-project-modal.js';
 
 function createSidebarDiv (parent) {
     const sidebar = document.createElement('div');
@@ -46,8 +47,8 @@ function loadPage () {
     createWorkArea(mainDiv);
     populateSidebar();
     
-    //showTaskModalOnClick();
     loadTaskModal();
+    loadNewProjectModal();
 }
 
 export {
