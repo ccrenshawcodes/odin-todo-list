@@ -1,6 +1,5 @@
 import { populateSidebar } from './populate-sidebar.js';
-import { loadTaskModal } from './load-task-modal.js';
-import { loadNewProjectModal } from './new-project-modal.js';
+import { listAllItems } from './load-task-list.js';
 
 function createSidebarDiv (parent) {
     const sidebar = document.createElement('div');
@@ -17,15 +16,13 @@ function createMainDiv (parent) {
 function createTopRibbon (parent) {
     const topRibbon = document.createElement('div');
     topRibbon.classList.add('top-ribbon');
-    parent.appendChild(topRibbon);
-}
 
-function populateTopRibbon (parent) {
     const appTitle = document.createElement('h1');
     appTitle.classList.add('app-title');
     appTitle.textContent = 'keyDown';
 
-    parent.appendChild(appTitle);
+    topRibbon.appendChild(appTitle)
+    parent.appendChild(topRibbon);
 }
 
 function createWorkArea (parent) {
@@ -41,14 +38,10 @@ function loadPage () {
 
     const mainDiv = document.querySelector('.main-div');
     createTopRibbon(mainDiv);
-
-    const ribbonDiv = document.querySelector('.top-ribbon');
-    populateTopRibbon(ribbonDiv);
     createWorkArea(mainDiv);
-    populateSidebar();
     
-    loadTaskModal();
-    loadNewProjectModal();
+    listAllItems();
+    populateSidebar();
 }
 
 export {

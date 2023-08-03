@@ -1,4 +1,5 @@
-//import { projectContainer, createAndAddTask, deleteTask, toggleTaskCompletedStatus } from './store-projects.js';
+import { createAndAddTask, projectContainer } from "./store-projects";
+import { listAllItems } from "./load-task-list";
 
 function populateTaskModalHeader (parent) {
     const taskTitle = document.createElement('input');
@@ -8,6 +9,7 @@ function populateTaskModalHeader (parent) {
     const closeBtn = document.createElement('button');
     closeBtn.classList.add('close-button');
     closeBtn.textContent = 'X';
+    closeBtn.addEventListener('click', hideModal);
 
     parent.appendChild(taskTitle);
     parent.appendChild(closeBtn);
@@ -59,26 +61,33 @@ function createPriorityDropdown (parent) {
 function populateTaskModalFooter (parent) {
     const okButton = document.createElement('button');
     okButton.classList.add('ok-button');
-    okButton.textContent = 'Create';
+    okButton.textContent = 'OK';
+    okButton.addEventListener('click', () => {
+        createTaskFromValues();
+        hideModal();
+        listAllItems();
+    })
 
     parent.appendChild(okButton);
 }
 
-function showTaskModalOnClick () {
-    const newTaskButton = document.querySelector('.new-task');
-    const modal = document.querySelector('.task-modal-background');
-    newTaskButton.addEventListener('click', () => {
-        modal.style.display = 'block';
-    });
-};
+function createTaskFromValues () {
+    const title = document.querySelector('.task-title').value;
+    const description = document.querySelector('.task-description').value;
+    const dueDate = document.querySelector('.task-due-date').value;
+    const priority = document.querySelector('.task-priority').value;
 
-function hideModalOnCloseClick () {
-    const closeBtn = document.querySelector('.close-button');
-    const modal = document.querySelector('.task-modal-background');
+    createAndAddTask(title, description, dueDate, priority, projectContainer.defaultProject);
+}
 
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    })
+function hideModal () {
+    const modal = document.querySelector('.task-modal-background');
+    modal.style.display = 'none';
+
+    document.querySelector('.task-title').value = '';
+    document.querySelector('.task-description').value = '';
+    document.querySelector('.task-due-date').value = '';
+    document.querySelector('.task-priority').value = '';
 }
 
 function loadTaskModal () {
@@ -116,13 +125,18 @@ function loadTaskModal () {
     modalBackground.appendChild(taskModal);
 
     mainDiv.appendChild(modalBackground);
-
-    showTaskModalOnClick();
-    hideModalOnCloseClick();
 }
 
+function showTaskModalOnClick (button) { 
+    button.addEventListener('click', () => {
+        loadTaskModal();
+        const modal = document.querySelector('.task-modal-background');
+        modal.style.display = 'block';
+    });
+};
+
 export {
-    loadTaskModal,
+    showTaskModalOnClick,
 }
 
 

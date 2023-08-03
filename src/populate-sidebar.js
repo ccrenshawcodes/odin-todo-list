@@ -1,4 +1,6 @@
 import { projectContainer } from './store-projects.js';
+import { showTaskModalOnClick } from './load-task-modal.js';
+import { showNewProjectModalOnClick } from './new-project-modal.js';
 
 function createSidebarDivs (parent) {
     const projectTabDiv = document.createElement('div');
@@ -31,10 +33,12 @@ function createActionBtns (parent) {
     const newTaskBtn = document.createElement('button');
     newTaskBtn.classList.add('new-task');
     newTaskBtn.textContent = 'new task';
+    showTaskModalOnClick(newTaskBtn);
 
     const newProjectBtn = document.createElement('button');
     newProjectBtn.classList.add('new-project');
     newProjectBtn.textContent = 'new project';
+    showNewProjectModalOnClick(newProjectBtn);
 
     parent.appendChild(newTaskBtn);
     parent.appendChild(newProjectBtn);

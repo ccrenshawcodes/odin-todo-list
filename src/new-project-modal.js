@@ -6,6 +6,7 @@ function populateNewProjectModalHeader (parent) {
     const closeBtn = document.createElement('button');
     closeBtn.classList.add('project-close-button');
     closeBtn.textContent = 'X';
+    closeBtn.addEventListener('click', hideModalOnClick);
 
     parent.appendChild(modalHeader);
     parent.appendChild(closeBtn);
@@ -27,21 +28,11 @@ function makeOkButton (parent) {
     parent.appendChild(okButton);
 }
 
-function showNewProjectModalOnClick () {
-    const newProjectButton = document.querySelector('.new-project');
+function hideModalOnClick () {
     const modal = document.querySelector('.project-modal-background');
-    newProjectButton.addEventListener('click', () => {
-        modal.style.display = 'block';
-    });
-};
+    modal.style.display = 'none';
 
-function hideModalOnCloseClick () {
-    const closeBtn = document.querySelector('.project-close-button');
-    const modal = document.querySelector('.project-modal-background');
-
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    })
+    document.querySelector('.project-title').value = '';
 }
 
 function loadNewProjectModal () {
@@ -66,11 +57,16 @@ function loadNewProjectModal () {
     modalBackground.appendChild(newProjectModal);
 
     mainDiv.appendChild(modalBackground);
-
-    showNewProjectModalOnClick();
-    hideModalOnCloseClick();
 }
 
+function showNewProjectModalOnClick (button) {
+    button.addEventListener('click', () => {
+        loadNewProjectModal();
+        const modal = document.querySelector('.project-modal-background');
+        modal.style.display = 'block';
+    });
+};
+
 export {
-    loadNewProjectModal,
+    showNewProjectModalOnClick,
 }
