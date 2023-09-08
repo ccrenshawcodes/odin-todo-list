@@ -1,3 +1,6 @@
+import { createNewProject, projectContainer } from "./store-projects";
+import { getAndPopulateProjects } from "./populate-sidebar";
+
 function populateNewProjectModalHeader (parent) {
     const modalHeader = document.createElement('h3');
     modalHeader.classList.add('project-modal-header');
@@ -24,6 +27,13 @@ function makeOkButton (parent) {
     const okButton = document.createElement('button');
     okButton.classList.add('ok-button');
     okButton.textContent = 'Create';
+
+    okButton.addEventListener('click', () => {
+        const title = document.querySelector('.project-title').value;
+        hideModalOnClick();
+        createNewProject(title);
+        getAndPopulateProjects();
+    })
 
     parent.appendChild(okButton);
 }

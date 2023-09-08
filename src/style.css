@@ -37,6 +37,16 @@ button {
     grid-template-rows: 8fr 1fr;
 }
 
+.project-tabs { /*container for project tabs*/
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+}
+
+.project-tab { /*the tabs themselves*/
+    padding: 0.5em;
+}
+
 .action-buttons {
     display: flex;
     flex-direction: column;
@@ -123,6 +133,10 @@ button {
 
 .task-description {
     height: 10em;
+}
+
+.status-toggle {
+    border: 1px solid black;
 }
 
 .task-sidebar {

@@ -16,7 +16,8 @@ function createSidebarDivs (parent) {
 function createProjectTabs (project, parent) {
     const projectTab = document.createElement('span');
     projectTab.classList.add('project-tab');
-    projectTab.classList.add(project);
+    //projectTab.classList.add(`${project}`); 
+    // ^ that one is a problem when there's a space etc. in the title
     projectTab.textContent = project;
 
     parent.appendChild(projectTab);
@@ -24,6 +25,13 @@ function createProjectTabs (project, parent) {
 
 function getAndPopulateProjects () {
     const projectTabDiv = document.querySelector('.project-tabs');
+
+    if (projectTabDiv.hasChildNodes()) {
+        while (projectTabDiv.firstChild) {
+            projectTabDiv.removeChild(projectTabDiv.firstChild);
+        }
+    }
+
     for (const entry in projectContainer) {
         createProjectTabs(entry, projectTabDiv);
     }
@@ -55,4 +63,5 @@ function populateSidebar () {
 
 export {
     populateSidebar,
+    getAndPopulateProjects,
 };
