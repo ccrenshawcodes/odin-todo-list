@@ -20,11 +20,17 @@ function populateTaskModalMainContent (parent) {
     taskDescription.classList.add('task-description');
     taskDescription.setAttribute('placeholder', "What's this task about?");
 
-    const taskNotes = document.createElement('textarea');
-    taskNotes.classList.add('task-notes');
+    const statusToggleLabel = document.createElement('p');
+    statusToggleLabel.textContent = 'Closed?';
+    statusToggleLabel.classList.add('status-label');
+    const taskStatusToggle = document.createElement('input');
+    taskStatusToggle.setAttribute('type', 'checkbox');
+    taskStatusToggle.classList.add('status-toggle');
+
 
     parent.appendChild(taskDescription);
-    parent.appendChild(taskNotes);
+    parent.appendChild(statusToggleLabel);
+    parent.appendChild(taskStatusToggle);
 }
 
 function loadTaskModalSidebarContent (parent) {

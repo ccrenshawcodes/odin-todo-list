@@ -5,18 +5,24 @@ const projectContainer = {
         {
             title: "first task",
             description: "make a trello knockoff",
-            dueDate: '7/10',
+            dueDate: '7/10/99',
             priority: 'normal',
-            notes: 'this might be hard... but I can do it.',
+            status: 'open',
+        },
+        {
+            title: "second task",
+            description: "make the tasks appear",
+            dueDate: '7/10/99',
+            priority: 'normal',
             status: 'open',
         },
     ],
-}
+};
 
 //  project management functions
 
 const createNewProject = (projectName) => {
-    projectContainer.projectName = new Array();
+    projectContainer[projectName] = new Array();
 };
 
 function renameProject (obj, oldKey, newKey) {
@@ -33,9 +39,8 @@ function createAndAddTask (title, description, dueDate, priority, project) {
     
     const createTask = () => {
         let status = 'open';
-        let notes = '';
     
-        return { title, description, dueDate, priority, status, notes };
+        return { title, description, dueDate, priority, status };
     }
     
     project.push(createTask(title, description, dueDate, priority));
