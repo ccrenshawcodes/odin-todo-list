@@ -1,6 +1,7 @@
 import { projectContainer } from './store-projects.js';
 import { showTaskModalOnClick } from './load-task-modal.js';
 import { showNewProjectModalOnClick } from './new-project-modal.js';
+import { listAllItems } from './load-task-list.js';
 
 function createSidebarDivs (parent) {
     const projectTabDiv = document.createElement('div');
@@ -19,6 +20,10 @@ function createProjectTabs (project, parent) {
     //projectTab.classList.add(`${project}`); 
     // ^ that one is a problem when there's a space etc. in the title
     projectTab.textContent = project;
+
+    projectTab.addEventListener('click', () => {
+        listAllItems(project);
+    })
 
     parent.appendChild(projectTab);
 }

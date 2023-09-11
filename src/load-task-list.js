@@ -7,7 +7,7 @@ function showListItem (taskTitle, parent) {
     parent.appendChild(listItem);
 }
 
-function listAllItems (project = projectContainer.defaultProject) {
+function listAllItems (project = 'defaultProject') {
     const parent = document.querySelector('.work-area');
 
     if (parent.hasChildNodes()) {
@@ -16,7 +16,7 @@ function listAllItems (project = projectContainer.defaultProject) {
         }
     }
 
-    project.forEach(item => showListItem(item.title, parent));
+    projectContainer[project].forEach(item => showListItem(item.title, parent));
 }
 
 export {
