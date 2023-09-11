@@ -64,6 +64,21 @@ function createPriorityDropdown (parent) {
     parent.appendChild(dropdown);
 }
 
+function createProjectDropdown (parent) {
+    const dropdown = document.createElement('select');
+    dropdown.classList.add('task-project');
+
+    for (const project in projectContainer) {
+        const projectOption = document.createElement('option');
+        projectOption.classList.add(`${project}`);
+        projectOption.textContent = project;
+        
+        dropdown.appendChild(projectOption);
+    }
+
+    parent.appendChild(dropdown);
+}
+
 function populateTaskModalFooter (parent) {
     const okButton = document.createElement('button');
     okButton.classList.add('ok-button');
@@ -82,8 +97,9 @@ function createTaskFromValues () {
     const description = document.querySelector('.task-description').value;
     const dueDate = document.querySelector('.task-due-date').value;
     const priority = document.querySelector('.task-priority').value;
+    const project = document.querySelector('.task-project').value;
 
-    createAndAddTask(title, description, dueDate, priority, projectContainer.defaultProject);
+    createAndAddTask(title, description, dueDate, priority, projectContainer[project]);
 }
 
 function hideModal () {
@@ -121,6 +137,7 @@ function loadTaskModal () {
     populateTaskModalMainContent(mainTaskModalContent);
     loadTaskModalSidebarContent(taskModalSidebar);
     createPriorityDropdown(taskModalSidebar);
+    createProjectDropdown(taskModalSidebar);
     populateTaskModalFooter(taskModalFooter);
 
     taskModal.appendChild(taskModalHeader);
