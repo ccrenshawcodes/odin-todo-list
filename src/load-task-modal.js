@@ -1,4 +1,4 @@
-import { createAndAddTask, projectContainer } from "./store-projects";
+import { createAndAddTask, projectContainer, projectNav } from "./store-projects";
 import { listAllItems } from "./load-task-list";
 
 function populateTaskModalHeader (parent) {
@@ -38,7 +38,11 @@ function loadTaskModalSidebarContent (parent) {
     dueDate.setAttribute('type', 'date');
     dueDate.classList.add('task-due-date');
 
+    const dropdown = document.createElement('select');
+    dropdown.classList.add('task-project');
+
     parent.appendChild(dueDate);
+    parent.appendChild(dropdown);
 }
 
 function createPriorityDropdown (parent) {
@@ -64,9 +68,14 @@ function createPriorityDropdown (parent) {
     parent.appendChild(dropdown);
 }
 
-function createProjectDropdown (parent) {
-    const dropdown = document.createElement('select');
-    dropdown.classList.add('task-project');
+function updateProjectDropdown () {
+    const dropdown = document.querySelector('.task-project');
+
+    if (dropdown.hasChildNodes()) {
+        while (dropdown.firstChild) {
+            dropdown.removeChild(dropdown.firstChild);
+        }
+    }
 
     for (const project in projectContainer) {
         const projectOption = document.createElement('option');
@@ -75,8 +84,6 @@ function createProjectDropdown (parent) {
         
         dropdown.appendChild(projectOption);
     }
-
-    parent.appendChild(dropdown);
 }
 
 function populateTaskModalFooter (parent) {
@@ -110,6 +117,20 @@ function hideModal () {
     document.querySelector('.task-description').value = '';
     document.querySelector('.task-due-date').value = '';
     document.querySelector('.task-priority').value = '';
+    document.querySelector('.task-project').value = '';
+}
+
+function prefillTaskModal (button) {
+    if (button.classList.contains('task-list-item')) {
+        const project = projectContainer[projectNav.activeProject];
+        const task = button.id;
+
+        const currentTask = project[task];
+        document.querySelector('.task-title').value = currentTask.title;
+        document.querySelector('.task-description').value = currentTask.description;
+        document.querySelector('.task-due-date').value = currentTask.dueDate;
+        document.querySelector('.task-priority').value = currentTask.priority;
+    }
 }
 
 function loadTaskModal () {
@@ -137,7 +158,6 @@ function loadTaskModal () {
     populateTaskModalMainContent(mainTaskModalContent);
     loadTaskModalSidebarContent(taskModalSidebar);
     createPriorityDropdown(taskModalSidebar);
-    createProjectDropdown(taskModalSidebar);
     populateTaskModalFooter(taskModalFooter);
 
     taskModal.appendChild(taskModalHeader);
@@ -153,6 +173,8 @@ function loadTaskModal () {
 function showTaskModalOnClick (button) { 
     button.addEventListener('click', () => {
         loadTaskModal();
+        updateProjectDropdown();
+        prefillTaskModal(button);
         const modal = document.querySelector('.task-modal-background');
         modal.style.display = 'block';
     });
