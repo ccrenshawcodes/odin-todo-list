@@ -58,6 +58,18 @@ function toggleTaskCompletedStatus (task) {
     }
 }
 
+//navigation
+let projectNav = {
+    active: Object.keys(projectContainer)[0],
+
+    get activeProject () {
+        return this.active;
+    },
+    set activeProject (value) {
+        return this.active = value;
+    }
+}
+
 export {
     projectContainer,
     createNewProject,
@@ -66,4 +78,5 @@ export {
     createAndAddTask,
     deleteTask,
     toggleTaskCompletedStatus,
+    projectNav,
 };

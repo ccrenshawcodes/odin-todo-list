@@ -1,4 +1,4 @@
-import { projectContainer } from './store-projects.js';
+import { projectContainer, projectNav } from './store-projects.js';
 import { showTaskModalOnClick } from './load-task-modal.js';
 import { showNewProjectModalOnClick } from './new-project-modal.js';
 import { listAllItems } from './load-task-list.js';
@@ -22,7 +22,9 @@ function createProjectTabs (project, parent) {
     projectTab.textContent = project;
 
     projectTab.addEventListener('click', () => {
+        projectNav.activeProject = project;
         listAllItems(project);
+        console.log(projectNav.activeProject);
     })
 
     parent.appendChild(projectTab);
