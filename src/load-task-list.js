@@ -1,9 +1,14 @@
+import { showTaskModalOnClick } from './load-task-modal.js';
 import { projectContainer, deleteTask } from './store-projects.js';
 
-function showListItem (taskTitle, parent) {
+function showListItem (task, taskTitle, parent, project) {
     const listItem = document.createElement('div');
     listItem.classList.add('task-list-item');
+    listItem.setAttribute('id', project.indexOf(task));
     listItem.textContent = taskTitle;
+
+    showTaskModalOnClick(listItem);
+
     parent.appendChild(listItem);
 }
 
@@ -16,7 +21,7 @@ function listAllItems (project = 'defaultProject') {
         }
     }
 
-    projectContainer[project].forEach(item => showListItem(item.title, parent));
+    projectContainer[project].forEach(item => showListItem(item, item.title, parent, projectContainer[project]));
 }
 
 export {
