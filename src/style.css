@@ -35,6 +35,12 @@ button {
 
 .task-list-item {
     padding: 0.5em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-list-item > * {
+    background-color: inherit;
 }
 
 .task-list-item:hover {
