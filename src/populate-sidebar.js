@@ -1,7 +1,7 @@
-import { projectContainer, projectNav } from './store-projects.js';
 import { showTaskModalOnClick } from './load-task-modal.js';
 import { showNewProjectModalOnClick } from './new-project-modal.js';
 import { listAllItems } from './load-task-list.js';
+import { projectNav } from './store-projects.js';
 
 function createSidebarDivs (parent) {
     const projectTabDiv = document.createElement('div');
@@ -17,14 +17,14 @@ function createSidebarDivs (parent) {
 function createProjectTabs (project, parent) {
     const projectTab = document.createElement('span');
     projectTab.classList.add('project-tab');
-    //projectTab.classList.add(`${project}`); 
-    // ^ that one is a problem when there's a space etc. in the title
     projectTab.textContent = project;
 
     projectTab.addEventListener('click', () => {
-        projectNav.activeProject = project;
-        listAllItems(project);
-        console.log(projectNav.activeProject);
+        let projectName = projectTab.textContent;
+        projectNav.activeProject = projectName; 
+        //the above is redundant bc the next line does it for us...
+        //but I like having it here haha
+        listAllItems(projectName);
     })
 
     parent.appendChild(projectTab);
@@ -39,9 +39,10 @@ function getAndPopulateProjects () {
         }
     }
 
-    for (const entry in projectContainer) {
-        createProjectTabs(entry, projectTabDiv);
+    for (let i = 0; i < localStorage.length; i++) {
+        createProjectTabs(localStorage.key(i), projectTabDiv);
     }
+
 }
 
 function createActionBtns (parent) {

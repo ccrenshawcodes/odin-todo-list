@@ -1,5 +1,6 @@
 import { populateSidebar } from './populate-sidebar.js';
 import { listAllItems } from './load-task-list.js';
+import { startStorage } from './store-projects.js';
 
 function createSidebarDiv (parent) {
     const sidebar = document.createElement('div');
@@ -40,6 +41,7 @@ function loadPage () {
     createTopRibbon(mainDiv);
     createWorkArea(mainDiv);
     
+    startStorage();
     listAllItems();
     populateSidebar();
 }

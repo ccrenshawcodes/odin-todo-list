@@ -1,4 +1,4 @@
-import { createNewProject, projectContainer } from "./store-projects";
+import { createNewProject } from "./store-projects";
 import { getAndPopulateProjects } from "./populate-sidebar";
 
 function populateNewProjectModalHeader (parent) {

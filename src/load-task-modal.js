@@ -1,4 +1,4 @@
-import { createAndAddTask, projectContainer, projectNav } from "./store-projects";
+import { storeTask, projectNav } from "./store-projects";
 import { listAllItems } from "./load-task-list";
 
 function populateTaskModalHeader (parent) {
@@ -34,18 +34,27 @@ function populateTaskModalMainContent (parent) {
 }
 
 function loadTaskModalSidebarContent (parent) {
+    const dueDateLabel = document.createElement('p');
+    dueDateLabel.textContent = 'Due Date:';
     const dueDate = document.createElement('input');
     dueDate.setAttribute('type', 'date');
     dueDate.classList.add('task-due-date');
 
+    const projectDropdownLabel = document.createElement('p');
+    projectDropdownLabel.textContent = 'Which project does this task belong to?';
     const dropdown = document.createElement('select');
     dropdown.classList.add('task-project');
 
+    parent.appendChild(dueDateLabel);
     parent.appendChild(dueDate);
+    parent.appendChild(projectDropdownLabel);
     parent.appendChild(dropdown);
 }
 
 function createPriorityDropdown (parent) {
+    const priorityLabel = document.createElement('p');
+    priorityLabel.textContent = 'Priority:';
+
     const dropdown = document.createElement('select');
     dropdown.classList.add('task-priority');
 
@@ -65,6 +74,7 @@ function createPriorityDropdown (parent) {
     dropdown.appendChild(normalPriority);
     dropdown.appendChild(highPriority);
 
+    parent.appendChild(priorityLabel);
     parent.appendChild(dropdown);
 }
 
@@ -77,11 +87,10 @@ function updateProjectDropdown () {
         }
     }
 
-    for (const project in projectContainer) {
+    for (let i = 0; i < localStorage.length; i++) {
         const projectOption = document.createElement('option');
-        projectOption.classList.add(`${project}`);
-        projectOption.textContent = project;
-        
+        projectOption.textContent = localStorage.key(i);
+
         dropdown.appendChild(projectOption);
     }
 }
@@ -106,7 +115,7 @@ function createTaskFromValues () {
     const priority = document.querySelector('.task-priority').value;
     const project = document.querySelector('.task-project').value;
 
-    createAndAddTask(title, description, dueDate, priority, projectContainer[project]);
+    storeTask(title, description, dueDate, priority, project);
 }
 
 function hideModal () {
@@ -122,10 +131,10 @@ function hideModal () {
 
 function prefillTaskModal (button) {
     if (button.classList.contains('task-list-item')) {
-        const project = projectContainer[projectNav.activeProject];
-        const task = button.id;
+        const project = JSON.parse(localStorage.getItem(projectNav.activeProject));
+        const taskID = button.id;
 
-        const currentTask = project[task];
+        const currentTask = project[taskID];
         document.querySelector('.task-title').value = currentTask.title;
         document.querySelector('.task-description').value = currentTask.description;
         document.querySelector('.task-due-date').value = currentTask.dueDate;
@@ -188,8 +197,5 @@ export {
 /* add:
 * require certain fields to be filled before ok can be pressed
 * add labels for fields
-* add project field
-* add new task on "ok" click
-* add open/closed field 
-* write logic to pre-fill fields when an existing task is clicked
+* fix "ok" button when editing a task - this will require some thought about storage
 */

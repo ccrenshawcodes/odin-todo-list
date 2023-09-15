@@ -1,18 +1,26 @@
 import { showTaskModalOnClick } from './load-task-modal.js';
-import { projectContainer, deleteTask } from './store-projects.js';
+import { projectNav } from './store-projects.js';
 
-function showListItem (task, taskTitle, parent, project) {
+function showListItem (task, taskTitle, taskDueDate, parent, project) {
     const listItem = document.createElement('div');
     listItem.classList.add('task-list-item');
     listItem.setAttribute('id', project.indexOf(task));
-    listItem.textContent = taskTitle;
+
+    const itemTitle = document.createElement('span');
+    itemTitle.textContent = taskTitle;
+
+    const itemDueDate = document.createElement('span');
+    itemDueDate.textContent = taskDueDate;
+
+    listItem.appendChild(itemTitle);
+    listItem.appendChild(itemDueDate);
 
     showTaskModalOnClick(listItem);
 
     parent.appendChild(listItem);
 }
 
-function listAllItems (project = 'defaultProject') {
+function listAllItems (project = projectNav.activeProject) {
     const parent = document.querySelector('.work-area');
 
     if (parent.hasChildNodes()) {
@@ -20,22 +28,11 @@ function listAllItems (project = 'defaultProject') {
             parent.removeChild(parent.firstChild);
         }
     }
-
-    projectContainer[project].forEach(item => showListItem(item, item.title, parent, projectContainer[project]));
+    const parsedProject = JSON.parse(localStorage.getItem(project));
+    parsedProject.forEach(item => showListItem(item, item.title, item.dueDate, parent, parsedProject));
 }
 
 export {
     listAllItems,
 }
-
-
-/* so I need to:
-1. populate task list items - DONE
-2. give them names based on the title attribute - DONE
-3. attach event listeners to them that will
-4. open the task modal, populated with
-5. the appropriate task info pre-populated */
-
-//abbey recommends doing localstorage reading before
-//proceeding with this part.
 
