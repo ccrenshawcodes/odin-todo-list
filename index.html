@@ -6,8 +6,73 @@
     <title>KeyDown: Your Task Manager</title>
 </head>
 <body>
-    <div class="content"></div>
+    <div class="content">
+        <div class="sidebar">
+            <div class="projects-list"></div>
+
+            <div class="action-buttons">
+                <button class="new-task">new task</button>
+                <button class="new-project">new project</button>
+            </div>
+        </div>
+
+        <div class="main-div">
+            <div class="top-ribbon">
+                <h1>keyDown</h1>
+            </div>
+            <div class="task-display">
+                <div class="open-tasks"></div>
+                <div class="closed-tasks"></div>
+            </div>
+        </div>
+
+        <div class="task-modal-background">
+            <div class="task-modal">
+                <div class="task-modal-header">
+                    <input type="text" class="task-title" placeholder="Type your title here..." />
+                    <button class="task-close-button">X</button>
+                </div>
+                <div class="task-main-content">
+                    <input type="textarea" class="task-description" placeholder="what's this task about?" />
+                    <p>Closed?</p>
+                    <input type="checkbox" class="status-toggle" />
+                </div>
+                <div class="task-sidebar">
+                    <p>Due Date</p>
+                    <input type="date" class="task-due-date" />
+
+                    <p>Priority</p>
+                    <select name="Priority" id="Priority">
+                        <option value="low">Low</option>
+                        <option value="normal">Normal</option>
+                        <option value="high">High</option>
+                    </select>
+
+                    <p>Project</p>
+                    <select name="task-project-dropdown" id="task-project-dropdown"></select>
+
+                </div>
+                <div class="task-modal-footer">
+                    <button class="task-ok-button">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-modal-background">
+            <div class="new-project-modal">
+                <div class="project-modal-header">
+                    <h3>Name Your New Project: </h3>
+                    <button class="project-close-button">X</button>
+                </div>
+                <input type="text" class="project-title" placeholder="Plan Italy Trip..." />
+                <button class="project-ok-button">Create</button>
+            </div>
+        </div>
+
+    </div>
     <script src="./main.js"></script>
     
 </body>
 </html>
+
+<!-- DON'T FORGET TO RUN WEBPACK! :) -->
