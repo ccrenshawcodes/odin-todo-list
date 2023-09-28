@@ -21,7 +21,7 @@ function showListItem (task, taskTitle, taskDueDate, parent, project) {
 }
 
 function listAllItems (project = projectNav.activeProject) {
-    const parent = document.querySelector('.work-area');
+    const parent = document.querySelector('.task-display');
 
     if (parent.hasChildNodes()) {
         while (parent.firstChild) {

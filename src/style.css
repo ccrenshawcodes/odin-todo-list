@@ -54,7 +54,7 @@ button {
     grid-template-rows: 8fr 1fr;
 }
 
-.project-tabs { /*container for project tabs*/
+.projects-list { /*container for project tabs*/
     display: flex;
     flex-direction: column;
     margin: 1em;
@@ -79,6 +79,10 @@ button {
 .action-buttons > button {
     padding: 0.5em;
     border: none;
+}
+
+.action-buttons > button:hover {
+    cursor: pointer;
 }
 
 /* task modal styles */
@@ -134,7 +138,7 @@ button {
     font-size: larger;
 }
 
-.close-button {
+.task-close-button {
     border: none;
     align-self: flex-start;
 }
@@ -156,6 +160,7 @@ button {
 .task-description {
     height: 10em;
     border-radius: 10px;
+    border: 1px solid gray;
 }
 
 .status-toggle {
@@ -201,17 +206,16 @@ button {
     margin: 1em;
 }
 
-.ok-button {
+.task-ok-button {
     border: none;
-    align-self: flex-end;
+    align-self: center;
     background-color: #5dbea3;
     border-radius: 5px;
     padding: 0.7em 1em;
-    width: 10em;
-
+    width: 90%;
 }
 
-.ok-button:hover {
+.task-ok-button:hover {
     box-shadow: 2px 2px 5px 0px #636363;
 }
 
@@ -241,19 +245,27 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 }
 
 .project-modal-header {
     display: flex;
+    width: 90%;
     background-color: #fefefe;
     color: black;
-    width: 100%;
+    justify-content: space-between;
+}
+
+.project-modal-header > h3 {
+    background-color: white;
+    color: black;
 }
 
 .project-close-button {
     background-color: white;
     color: black;
     border: none;
+    align-self: flex-end;
 }
 
 .project-title {
@@ -263,5 +275,20 @@ button {
     border-right: none;
     border-left: none;
     padding: 0.5em;
+    width: 90%;
+    align-self: center;
     color: black;
+}
+
+.project-ok-button {
+    border: none;
+    align-self: center;
+    background-color: #5dbea3;
+    border-radius: 5px;
+    padding: 0.7em 1em;
+    width: 90%;
+}
+
+.project-ok-button:hover {
+    box-shadow: 2px 2px 5px 0px #636363;
 }
