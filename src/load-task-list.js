@@ -20,16 +20,33 @@ function showListItem (task, taskTitle, taskDueDate, parent, project) {
     parent.appendChild(listItem);
 }
 
-function listAllItems (project = projectNav.activeProject) {
-    const parent = document.querySelector('.task-display');
 
-    if (parent.hasChildNodes()) {
-        while (parent.firstChild) {
-            parent.removeChild(parent.firstChild);
+
+function listAllItems (project = projectNav.activeProject) {
+    const openSection = document.querySelector('.open-tasks');
+    const closedSection = document.querySelector('.closed-tasks');
+
+    function determineStatus (taskStatus) {
+        if (taskStatus === 'open') {
+            return openSection;
+        } else if (taskStatus === 'closed') {
+            return closedSection;
         }
     }
+
+    function clearExistingTasks (parent) {
+        if (parent.hasChildNodes()) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+    }
+    clearExistingTasks(openSection);
+    clearExistingTasks(closedSection);
+
     const parsedProject = JSON.parse(localStorage.getItem(project));
-    parsedProject.forEach(item => showListItem(item, item.title, item.dueDate, parent, parsedProject));
+    console.table(parsedProject);
+    parsedProject.forEach(item => showListItem(item, item.title, item.dueDate, determineStatus(item.status), parsedProject));
 }
 
 export {

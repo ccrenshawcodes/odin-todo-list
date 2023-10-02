@@ -24,8 +24,16 @@ function createTaskFromValues () {
     const dueDate = document.querySelector('.task-due-date').value;
     const priority = document.querySelector('#Priority').value;
     const project = document.querySelector('#task-project-dropdown').value;
+    
+    let taskStatus;
+    const status = document.querySelector('.status-toggle');
+    if (status.checked === true) {
+        taskStatus = 'closed';
+    } else if (status.checked === false) {
+        taskStatus = 'open';
+    }
 
-    storeTask(title, description, dueDate, priority, project);
+    storeTask(title, description, dueDate, priority, taskStatus, project);
 }
 
 function hideModal () {
@@ -37,6 +45,7 @@ function hideModal () {
     document.querySelector('.task-due-date').value = '';
     document.querySelector('#Priority').value = 'low';
     document.querySelector('#task-project-dropdown').value = '';
+    document.querySelector('.status-toggle').checked = false;
 }
 
 function prefillTaskModal (button) {
@@ -52,12 +61,27 @@ function prefillTaskModal (button) {
     }
 }
 
+function changeTaskStatus (task) {
+    //  change the open/closed status of a task when the checkbox is clicked
+    const statusToggle = document.querySelector('.status-toggle');
+    statusToggle.addEventListener('click', () => {
+        if (statusToggle.checked === true) {
+            task.status = 'closed';
+        } else if (statusToggle.checked === false) {
+            task.status = 'open';
+        }
+    })
+}
+
+//  Something in here is making it so that we get the "push is not a function" console error
+//  we are clearing out the values with hideModal() and even tho we can add a task,
+//  for some reason we are still getting the console error.
 function addButtonFunctions () {
     const okButton = document.querySelector('.task-ok-button');
     okButton.addEventListener('click', () => {
         createTaskFromValues();
-        hideModal();
         listAllItems();
+        hideModal();
     })
     
     const closeButton = document.querySelector('.task-close-button');

@@ -6,24 +6,27 @@ function startStorage () {
     }
 }
 
-/* const projectContainer = {
-    'Default Project': [
-        {
-            title: "first task",
-            description: "make a trello knockoff",
-            dueDate: '2023-07-10',
-            priority: 'normal',
-            status: 'open',
-        },
-        {
-            title: "second task",
-            description: "make the tasks appear",
-            dueDate: '2024-02-13',
-            priority: 'normal',
-            status: 'open',
-        },
-    ],
-}; */
+/* 
+    format:
+    localstorage = {
+        'default project': 
+        [
+            {
+                title: 'first task',
+                description: 'just showing how it works',
+                dueDate: '2023-09-30',
+                priority: 'normal',
+                status: 'open'
+            },
+        ],
+    }
+
+    new Projects are added to localStorage as k/v pairs,
+    where the name of the Project is the key,
+    and a stringified Array is the value;
+    The Array will contain objects representing Tasks with
+    title, description, dueDate, priority and status attributes.
+*/
 
 //  project management functions
 
@@ -43,24 +46,21 @@ function deleteProject (projectName) {
 
 //  task management functions
 
-function storeTask (title, description, dueDate, priority, project) {
+function storeTask (title, description, dueDate, priority, status, project) {
     let projectData = JSON.parse(localStorage.getItem(project));
-    createAndAddTask(title, description, dueDate, priority, projectData);
+    createAndAddTask(title, description, dueDate, priority, status, projectData);
     localStorage.setItem(project, JSON.stringify(projectData));
 }
 
-function createAndAddTask (title, description, dueDate, priority, project) {
+function createAndAddTask (title, description, dueDate, priority, status, project) {
     
     const createTask = () => {
-        let status = 'open';
-    
         return { title, description, dueDate, priority, status };
     }
     
-    project.push(createTask(title, description, dueDate, priority));
+    project.push(createTask(title, description, dueDate, priority, status));
 }
 
-//  how the heck am I planning to get the index ??
 function deleteTask (taskIndex, project) {
     const projectTasks = JSON.parse(localStorage.getItem(project));
     projectTasks.splice(projectTasks[taskIndex], 1, '');
