@@ -33,10 +33,22 @@ button {
 
 /* main area (task list) */
 
+.current-project {
+    padding: 10px;
+}
+
+.task-display {
+    padding: 10px;
+}
+
+.task-display > h3 {
+    margin: 1em 0;
+}
+
 .task-list-item {
     padding: 0.5em;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 7fr 3fr 1fr;
 }
 
 .task-list-item > * {
@@ -45,6 +57,19 @@ button {
 
 .task-list-item:hover {
     background-color: darkgray;
+    cursor: default;
+}
+
+.list-task-title:hover {
+    cursor: pointer;
+}
+
+.delete-task-button {
+    padding: 0 1em;
+}
+
+.delete-task-button:hover {
+    color: red;
     cursor: pointer;
 }
 
@@ -62,11 +87,21 @@ button {
 
 .project-tab { /*the tabs themselves*/
     padding: 0.5em;
+    display: flex;
+    justify-content: space-between;
 }
 
 .project-tab:hover {
-    cursor: pointer;
     background-color: darkgray;
+}
+
+.project-tab > * {
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.delete-project-button:hover {
+    cursor: pointer;
 }
 
 .action-buttons {
