@@ -1,20 +1,38 @@
 import { listAllItems } from './load-task-list.js';
-import { projectNav } from './store-projects.js';
+import { projectNav, deleteProject } from './store-projects.js';
 
 function createProjectTabs (project, parent) {
-    const projectTab = document.createElement('span');
+    const projectTab = document.createElement('div');
     projectTab.classList.add('project-tab');
-    projectTab.textContent = project;
 
-    projectTab.addEventListener('click', () => {
-        let projectName = projectTab.textContent;
+    const projectTabText = document.createElement('h4');
+    projectTabText.textContent = project;
+
+    const deleteProjectButton = document.createElement('span');
+    deleteProjectButton.classList.add('delete-project-button');
+    deleteProjectButton.textContent = 'X';
+
+    projectTabText.addEventListener('click', () => {
+        let projectName = projectTabText.textContent;
         projectNav.activeProject = projectName; 
         //the above is redundant bc the next line does it for us...
         //but I like having it here haha
         listAllItems(projectName);
     })
 
+    projectTab.appendChild(projectTabText);
+    projectTab.appendChild(deleteProjectButton);
+    deleteProjectOnClick(deleteProjectButton);
+
     parent.appendChild(projectTab);
+}
+
+function deleteProjectOnClick (button) {
+    button.addEventListener('click', (e) => {
+        const projectName = e.target.parentElement.firstChild.textContent;
+        deleteProject(projectName);
+        listAllItems();
+    })
 }
 
 function getAndPopulateProjects () {

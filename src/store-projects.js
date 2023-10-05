@@ -46,24 +46,29 @@ function deleteProject (projectName) {
 
 //  task management functions
 
-function storeTask (title, description, dueDate, priority, status, project) {
+function storeNewTask (title, description, dueDate, priority, status, project, position) {
     let projectData = JSON.parse(localStorage.getItem(project));
-    createAndAddTask(title, description, dueDate, priority, status, projectData);
+    createAndAddTask(title, description, dueDate, priority, status, projectData, position);
     localStorage.setItem(project, JSON.stringify(projectData));
 }
 
-function createAndAddTask (title, description, dueDate, priority, status, project) {
+function createAndAddTask (title, description, dueDate, priority, status, project, position) {
     
     const createTask = () => {
         return { title, description, dueDate, priority, status };
     }
-    
-    project.push(createTask(title, description, dueDate, priority, status));
+
+    if (position !== null) {
+        project.splice(position, 1, createTask(title, description, dueDate, priority, status));
+    } else if (position === null) {
+        project.push(createTask(title, description, dueDate, priority, status));
+    }
 }
 
 function deleteTask (taskIndex, project) {
     const projectTasks = JSON.parse(localStorage.getItem(project));
-    projectTasks.splice(projectTasks[taskIndex], 1, '');
+    projectTasks.splice(taskIndex, 1);
+    localStorage.setItem(project, JSON.stringify(projectTasks));
 }
 
 function toggleTaskCompletedStatus (taskIndex, project) {
@@ -94,7 +99,8 @@ export {
     createNewProject,
     renameProject,
     deleteProject,
-    storeTask,
+    storeNewTask,
+    createAndAddTask,
     deleteTask,
     toggleTaskCompletedStatus,
     projectNav,

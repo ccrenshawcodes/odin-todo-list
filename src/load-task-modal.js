@@ -1,5 +1,43 @@
-import { storeTask, projectNav } from "./store-projects";
+import { storeNewTask, projectNav } from "./store-projects";
 import { listAllItems } from "./load-task-list";
+
+let currentTask = {
+    _activeTask: 0,
+
+    get taskID () {
+        return this._activeTask;
+    },
+
+    set taskID (task) {
+        return this._activeTask = task;
+    }
+}
+
+function getTaskValues () {
+    const title = document.querySelector('.task-title').value;
+    const description = document.querySelector('.task-description').value;
+    const dueDate = document.querySelector('.task-due-date').value;
+    const priority = document.querySelector('#Priority').value;
+    const project = document.querySelector('#task-project-dropdown').value;
+    
+    let taskStatus;
+    const status = document.querySelector('.status-toggle');
+    if (status.checked === true) {
+        taskStatus = 'closed';
+    } else if (status.checked === false) {
+        taskStatus = 'open';
+    }
+
+    return {
+        title,
+        description,
+        dueDate,
+        priority,
+        project,
+        taskStatus,
+    }
+    
+}
 
 function updateProjectDropdown () {
     const dropdown = document.querySelector('#task-project-dropdown');
@@ -18,24 +56,6 @@ function updateProjectDropdown () {
     }
 }
 
-function createTaskFromValues () {
-    const title = document.querySelector('.task-title').value;
-    const description = document.querySelector('.task-description').value;
-    const dueDate = document.querySelector('.task-due-date').value;
-    const priority = document.querySelector('#Priority').value;
-    const project = document.querySelector('#task-project-dropdown').value;
-    
-    let taskStatus;
-    const status = document.querySelector('.status-toggle');
-    if (status.checked === true) {
-        taskStatus = 'closed';
-    } else if (status.checked === false) {
-        taskStatus = 'open';
-    }
-
-    storeTask(title, description, dueDate, priority, taskStatus, project);
-}
-
 function hideModal () {
     const modal = document.querySelector('.task-modal-background');
     modal.style.display = 'none';
@@ -46,42 +66,49 @@ function hideModal () {
     document.querySelector('#Priority').value = 'low';
     document.querySelector('#task-project-dropdown').value = '';
     document.querySelector('.status-toggle').checked = false;
-}
 
-function prefillTaskModal (button) {
-    if (button.classList.contains('task-list-item')) {
-        const project = JSON.parse(localStorage.getItem(projectNav.activeProject));
-        const taskID = button.id;
-
-        const currentTask = project[taskID];
-        document.querySelector('.task-title').value = currentTask.title;
-        document.querySelector('.task-description').value = currentTask.description;
-        document.querySelector('.task-due-date').value = currentTask.dueDate;
-        document.querySelector('#Priority').value = currentTask.priority;
+    const button = document.querySelector('.task-ok-button');
+    if (button.classList.contains('edit-save-button')) {
+        button.classList.remove('edit-save-button');
     }
 }
 
-function changeTaskStatus (task) {
-    //  change the open/closed status of a task when the checkbox is clicked
-    const statusToggle = document.querySelector('.status-toggle');
-    statusToggle.addEventListener('click', () => {
-        if (statusToggle.checked === true) {
-            task.status = 'closed';
-        } else if (statusToggle.checked === false) {
-            task.status = 'open';
-        }
-    })
+function prefillTaskModal (button) {
+    const project = JSON.parse(localStorage.getItem(projectNav.activeProject));
+    currentTask.taskID = button.parentElement.id;
+
+    const thisTask = project[currentTask.taskID];
+    document.querySelector('.task-title').value = thisTask.title;
+    document.querySelector('.task-description').value = thisTask.description;
+    document.querySelector('.task-due-date').value = thisTask.dueDate;
+    document.querySelector('#Priority').value = thisTask.priority;
+
+    if (thisTask.status === 'closed') {
+        document.querySelector('.status-toggle').checked = true;
+    } else {
+        document.querySelector('.status-toggle').checked = false;
+    }
+
+    const okButton = document.querySelector('.task-ok-button');
+    okButton.classList.add('edit-save-button');
 }
 
-//  Something in here is making it so that we get the "push is not a function" console error
-//  we are clearing out the values with hideModal() and even tho we can add a task,
-//  for some reason we are still getting the console error.
+function updateTask (position) {
+        storeNewTask(getTaskValues().title, getTaskValues().description, getTaskValues().dueDate, getTaskValues().priority, getTaskValues().taskStatus, getTaskValues().project, position);
+        listAllItems();
+        hideModal();
+}
+
 function addButtonFunctions () {
     const okButton = document.querySelector('.task-ok-button');
     okButton.addEventListener('click', () => {
-        createTaskFromValues();
-        listAllItems();
-        hideModal();
+        if (okButton.classList.contains('edit-save-button') === false) {
+            storeNewTask(getTaskValues().title, getTaskValues().description, getTaskValues().dueDate, getTaskValues().priority, getTaskValues().taskStatus, getTaskValues().project, null);
+            listAllItems();
+            hideModal();
+        } else {
+            updateTask(currentTask.taskID);
+        }
     })
     
     const closeButton = document.querySelector('.task-close-button');
@@ -90,9 +117,10 @@ function addButtonFunctions () {
 
 function showTaskModalOnClick (button) { 
     button.addEventListener('click', () => {
-        prefillTaskModal(button);
+        if (button.classList.contains('list-task-title')) {
+            prefillTaskModal(button);
+        }
         updateProjectDropdown();
-        addButtonFunctions();
         const modal = document.querySelector('.task-modal-background');
         modal.style.display = 'block';
     });
@@ -100,11 +128,12 @@ function showTaskModalOnClick (button) {
 
 export {
     showTaskModalOnClick,
+    addButtonFunctions,
 }
 
 
 /* add:
 * require certain fields to be filled before ok can be pressed
-* add labels for fields
-* fix "ok" button when editing a task - this will require some thought about storage
+* which project is displayed in the project dropdown
+* moving tasks across projects
 */
