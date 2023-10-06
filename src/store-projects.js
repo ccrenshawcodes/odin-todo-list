@@ -1,9 +1,12 @@
 //  create and manage Project objects and Task objects
 
 function startStorage () {
-    if (localStorage.length <= 0) {
-        localStorage.setItem('Default Project', JSON.stringify(new Array()));
-    }
+    window.addEventListener('load', () => {
+        if (localStorage.length <= 0) {
+            localStorage.setItem('Default Project', JSON.stringify(new Array()));
+        }
+    })
+
 }
 
 /* 
