@@ -1,2 +1,2 @@
 # odin-todo-list
-Anything is better than ClickUp, right? ;) 
+Shockingly, not better than ClickUp (YET)
