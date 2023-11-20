@@ -31,7 +31,7 @@ function deleteProjectOnClick (button) {
     button.addEventListener('click', (e) => {
         const projectName = e.target.parentElement.firstChild.textContent;
         deleteProject(projectName);
-        listAllItems();
+        getAndPopulateProjects();
     })
 }
 
