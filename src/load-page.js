@@ -5,6 +5,7 @@ import { showNewProjectModalOnClick } from './new-project-modal.js';
 import { getAndPopulateProjects } from './populate-sidebar.js';
 
 function loadPage () {
+    startStorage();
     const newTaskButton = document.querySelector('.new-task');
     const newProjectButton = document.querySelector('.new-project');
     showTaskModalOnClick(newTaskButton);
@@ -13,7 +14,6 @@ function loadPage () {
     showNewProjectModalOnClick(newProjectButton);
 
     getAndPopulateProjects();
-    startStorage();
     listAllItems();
 
 }
